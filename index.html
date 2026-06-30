@@ -1,0 +1,92 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#E5EEFF;font-family:'Manrope',-apple-system,Segoe UI,Roboto,sans-serif;color:#111}
+.wrap{padding:24px 22px 22px}
+.h{font-size:26px;font-weight:800;line-height:1.05;letter-spacing:-.5px;margin:0 0 18px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.my{flex:1;text-align:center;font-size:17px;font-weight:600}
+.mv{width:36px;height:36px;border:1.5px solid #111;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
+.mv svg{width:16px;height:16px;fill:none;stroke:#111;stroke-width:2}
+.mv.off{opacity:.25;pointer-events:none}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px}
+.dow>div{text-align:center;font-size:12px;font-weight:500;color:#9aa3b5;padding:5px 0}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px 2px}
+.d{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;border-radius:50%;cursor:pointer;width:36px;height:36px;max-width:100%;margin:0 auto;position:relative;background:transparent;border:none;color:#111;font-family:inherit}
+.d:hover{background:#D6E2FB}
+.d.mut{color:#b9c0d2;cursor:default;pointer-events:none}
+.d.ev{box-shadow:inset 0 0 0 1.5px #BCC6DD}
+.d.cur,.d.sel{background:#111;color:#fff;box-shadow:none}
+.foot{margin-top:18px;border-top:1px solid #CFD8EC;padding-top:16px}
+.fd{font-size:17px;font-weight:700;margin:0 0 12px}
+.fe{display:block;padding:2px 0 2px 14px;border-left:3px solid #BCC6DD}
+.fe .t{display:block;font-size:15px;font-weight:500;line-height:1.3}
+</style></head>
+<body><div class="wrap">
+<div class="h">Календарь обучения</div>
+<div class="top"><button class="mv" id="prev" aria-label="prev"><svg viewBox="0 0 24 24"><path d="M10.5 5L3.5 12L10.5 19L10.5 14.5L20 14.5L20 9.5L10.5 9.5Z" stroke-linejoin="round" stroke-linecap="round"/></svg></button><div class="my" id="my"></div><button class="mv" id="next" aria-label="next"><svg viewBox="0 0 24 24"><path d="M13.5 5L20.5 12L13.5 19L13.5 14.5L4 14.5L4 9.5L13.5 9.5Z" stroke-linejoin="round" stroke-linecap="round"/></svg></button></div>
+<div class="dow"><div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div></div>
+<div class="grid" id="grid"></div>
+<div class="foot"><div class="fd" id="fd"></div><div id="fe"></div></div>
+</div>
+<script>
+var EVENTS=[
+["2026-06-29","Урок 0 + Урок 0.1"],["2026-06-30","Позиционирование + Дизайн контента"],
+["2026-07-01","Монтаж и дизайн видео + Иерархия"],["2026-07-02","Анализ целевой аудитории"],
+["2026-07-03","Съёмка видео + Съёмка 2.1 + Фото и композиция"],["2026-07-05","Разбор ошибок + домашние задания"],
+["2026-07-06","Анализ конкурентов"],["2026-07-07","Программы для монтажа + КапКат №1 + Типографика"],
+["2026-07-08","Психология внимания + триггеры"],["2026-07-09","КапКат №2 + Колористика"],
+["2026-07-10","Психология продаж"],["2026-07-12","Разбор ошибок + домашние задания"],
+["2026-07-13","СТА + о чём говорить в блоге"],["2026-07-14","КапКат №3 + Композиция"],
+["2026-07-15","Воронки + психология ведения блога"],["2026-07-16","КапКат №4 + №5 + Дизайн разных форматов"],
+["2026-07-17","Доверие"],["2026-07-18","Бонус: владение Figma"],
+["2026-07-19","Разбор ошибок + домашние задания"],["2026-07-20","Сторителлинги + Рилс: Урок 0"],
+["2026-07-21","КапКат №6 + ошибки монтажа"],["2026-07-22","Формулы сторителлингов"],
+["2026-07-23","Рилс: Урок 1 + КапКат №7+8"],["2026-07-24","Удержание внимания в сторис + триггеры"],
+["2026-07-26","Разбор ошибок + домашние задания"],["2026-07-27","Идеи сторителлингов + CTA в сторис"],
+["2026-07-28","Нейронки для сторис"],["2026-07-29","Блок: Закрепы (все уроки в 1 день)"],
+["2026-07-30","Как придумывать идеи для рилс?"],["2026-07-31","Хуки Рилс"],
+["2026-08-02","Разбор ошибок + домашние задания"],["2026-08-03","Сценарий рилс + Съёмка рилс"],
+["2026-08-04","Как пробить баннерную слепоту"],["2026-08-05","Почему Рилс не залетают + публикация"],
+["2026-08-06","Аналитика и масштабирование"],["2026-08-07","REELS → ПОДПИСЧИКИ → ДЕНЬГИ"],
+["2026-08-09","Разбор ошибок + домашние задания"],["2026-08-10","Как работает упаковка аккаунта"],
+["2026-08-11","Шапка профиля"],["2026-08-12","Закрепы (сторис) + закрепы посты профиля"],
+["2026-08-13","Общий визуал аккаунта"],["2026-08-14","Практика: дизайн обложек в Figma"],
+["2026-08-16","Разбор ошибок + домашние задания"],["2026-08-17","Неделя доп. уроков"],
+["2026-08-18","Тайм-менеджмент на фрилансе"],["2026-08-23","Финальный урок: структура дальнейших действий + наставления"]
+];
+var MN=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+var MNF=["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+function pd(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+var evs=EVENTS.map(function(e){return {d:pd(e[0]),t:e[1]};});
+var same=function(a,b){return a.getFullYear()==b.getFullYear()&&a.getMonth()==b.getMonth()&&a.getDate()==b.getDate();};
+var today=new Date();
+var ms=evs.map(function(e){return e.d.getFullYear()*12+e.d.getMonth();});
+var minMS=Math.min.apply(null,ms),maxMS=Math.max.apply(null,ms);
+function startM(){var ds=evs.map(function(e){return e.d;}).sort(function(a,b){return a-b;});var inr=evs.some(function(e){return e.d.getMonth()==today.getMonth()&&e.d.getFullYear()==today.getFullYear();});if(!inr&&today<ds[0])return ds[0];return today;}
+var cur=startM(),cm=cur.getMonth(),cy=cur.getFullYear();
+var grid=document.getElementById("grid"),my=document.getElementById("my"),fd=document.getElementById("fd"),fe=document.getElementById("fe");
+function evOn(d){return evs.filter(function(e){return same(e.d,d);});}
+function showDay(d){fd.textContent=d.getDate()+" "+MN[d.getMonth()];var l=evOn(d);fe.innerHTML=l.length?l.map(function(it){return '<span class="fe"><span class="t">'+it.t+'</span></span>';}).join(""):'<span class="fe"><span class="t">Нет событий в этот день</span></span>';}
+function build(m,y){
+ cm=m;cy=y;my.textContent=MNF[m]+" "+y;grid.innerHTML="";
+ var first=new Date(y,m,1),wd=first.getDay();wd=wd>0?wd-1:6;
+ var pm=m>0?m-1:11,py=m>0?y:y-1,pdays=new Date(py,pm+1,0).getDate();
+ for(var i=wd;i>0;i--){var c=document.createElement("div");c.className="d mut";c.textContent=pdays-i+1;grid.appendChild(c);}
+ var d=new Date(y,m,1);
+ while(d.getMonth()==m){var dd=new Date(d);var b=document.createElement("button");b.className="d"+(same(dd,today)?" cur":"")+(evOn(dd).length?" ev":"");b.textContent=d.getDate();b.setAttribute("data-day",d.getDate());grid.appendChild(b);d.setDate(d.getDate()+1);}
+ var have=grid.querySelectorAll(".d").length,extra=42-have;
+ for(var j=1;j<=extra;j++){var c2=document.createElement("div");c2.className="d mut";c2.textContent=j;grid.appendChild(c2);}
+ var act=null;
+ if(m==today.getMonth()&&y==today.getFullYear())act=new Date(today);
+ else{var fe2=evs.map(function(e){return e.d;}).filter(function(x){return x.getMonth()==m&&x.getFullYear()==y;}).sort(function(a,b){return a-b;})[0];if(fe2)act=fe2;}
+ if(act){Array.prototype.forEach.call(grid.querySelectorAll(".d"),function(el){if(!el.classList.contains("mut")&&+el.getAttribute("data-day")==act.getDate())el.classList.add("sel");});showDay(act);}
+ else{fd.textContent="";fe.innerHTML="";}
+ document.getElementById("prev").classList.toggle("off",(y*12+m)<=minMS);
+ document.getElementById("next").classList.toggle("off",(y*12+m)>=maxMS);
+}
+document.getElementById("prev").onclick=function(){var m=cm>0?cm-1:11,y=cm>0?cy:cy-1;build(m,y);};
+document.getElementById("next").onclick=function(){var m=cm<11?cm+1:0,y=cm<11?cy:cy+1;build(m,y);};
+grid.addEventListener("click",function(e){var t=e.target.closest(".d");if(!t||t.classList.contains("mut"))return;Array.prototype.forEach.call(grid.querySelectorAll(".d"),function(el){el.classList.remove("sel");});t.classList.add("sel");showDay(new Date(cy,cm,+t.getAttribute("data-day")));});
+build(cm,cy);
+</script></body></html>
