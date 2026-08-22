@@ -121,7 +121,7 @@
 
   /* какой поток открыт: страница тренинга по id, страница урока — по ссылке на модуль 935774xxx */
   function isP1(){
-    if (location.pathname.indexOf('/stream/view/id/935774562') > -1) return true;
+    if (/stream\/view(?:\/id\/|\?id=)935774562/.test(location.href)) return true;
     return !!document.querySelector('a[href*="/stream/view/id/935774"]');
   }
   function EVS(){ return isP1() ? СОБЫТИЯ_П1 : СОБЫТИЯ; }
@@ -329,7 +329,7 @@
     }
 
     // --- КОНТЕКСТ ТРЕНИНГА: страница SYSTEM, вставляем после блока баланса ---
-    if(location.pathname.indexOf('/stream/view/id/935643857') > -1 || location.pathname.indexOf('/stream/view/id/935774562') > -1){
+    if(/stream\/view(?:\/id\/|\?id=)(935643857|935774562)/.test(location.href)){
       var $bal=$('[class*="userProfileBalance"]').last();
       var $anchor=$bal.length?$bal:$('.user-info').first().closest('.xdget-html');
       if(!$anchor.length) return false;
