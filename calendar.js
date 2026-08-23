@@ -165,11 +165,15 @@
     + '<div id="calTFooter_event"><h3 id="eventTitle_today"></h3><div id="calTFooter"></div></div>';
 
   /* доп.блоки сайдбара (Полезные ссылки + Соц.сети) — только на странице тренинга */
+  /* у тренинга «SYSTEM Монтаж» (935775378) свой отдельный чат — одна ссылка вместо четырёх */
+  var LINKS = isMM()
+    ? '<a class="ulink" href="https://t.me/+bXaSK8mwwvQ1NWUy" target="_blank" rel="noopener">Канал SYSTEM</a>'
+    : '<a class="ulink" href="https://t.me/+PUd_0dWs7W81OGIy" target="_blank" rel="noopener">Канал SYSTEM</a>'
+      + '<a class="ulink" href="https://t.me/+68HZTx292dY5YTBi" target="_blank" rel="noopener">Чат общения SYSTEM</a>'
+      + '<a class="ulink" href="https://t.me/+gjBJ8ccQohRiNzcy" target="_blank" rel="noopener">Чат дисциплины SYSTEM</a>'
+      + '<a class="ulink" href="https://t.me/+Kth1hNqW7uwzYmUy" target="_blank" rel="noopener">Разборы работ SYSTEM</a>';
   var EXTRA = '<div class="sys-extra-card"><h2>Полезные ссылки</h2>'
-    + '<a class="ulink" href="https://t.me/+PUd_0dWs7W81OGIy" target="_blank" rel="noopener">Канал SYSTEM</a>'
-    + '<a class="ulink" href="https://t.me/+68HZTx292dY5YTBi" target="_blank" rel="noopener">Чат общения SYSTEM</a>'
-    + '<a class="ulink" href="https://t.me/+gjBJ8ccQohRiNzcy" target="_blank" rel="noopener">Чат дисциплины SYSTEM</a>'
-    + '<a class="ulink" href="https://t.me/+Kth1hNqW7uwzYmUy" target="_blank" rel="noopener">Разборы работ SYSTEM</a>'
+    + LINKS
     + '</div>'
     + '<div class="sys-extra-card"><h2>Соц. сети</h2><div class="soc">'
     + '<a href="#"><svg viewBox="0 0 24 24"><path d="M3 7h3c.3 4 2 6 3 6V7h3v4c1 0 2-1 3-4h3c-1 3-2 4-3 5 1 1 3 3 3 5h-3c-1-2-2-3-3-3v3H9c-4 0-6-5-6-10z"/></svg></a>'
