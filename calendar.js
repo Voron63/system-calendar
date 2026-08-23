@@ -166,8 +166,15 @@
 
   /* доп.блоки сайдбара (Полезные ссылки + Соц.сети) — только на странице тренинга */
   /* у тренинга «SYSTEM Монтаж» (935775378) свой отдельный чат — одна ссылка вместо четырёх */
+  /* 1 поток (935774562) — свои чаты «SYSTEM 1.0» */
+  var LINKS_P1 = '<a class="ulink" href="https://t.me/+LTwxEhXCc51hOTk6" target="_blank" rel="noopener">Канал SYSTEM 1.0</a>'
+    + '<a class="ulink" href="https://t.me/+QMhgulAVWRs0YzIy" target="_blank" rel="noopener">Чат общения SYSTEM 1.0</a>'
+    + '<a class="ulink" href="https://t.me/+tls5XCFEANhmMGMy" target="_blank" rel="noopener">Чат дисциплины SYSTEM 1.0</a>'
+    + '<a class="ulink" href="https://t.me/+KN_3nIDpxAdjMWQy" target="_blank" rel="noopener">Разборы работ SYSTEM 1.0</a>'
+    + '<a class="ulink" href="https://t.me/+8dHKLi3LABNkN2Ri" target="_blank" rel="noopener">Идеи reels SYSTEM 1.0</a>';
   var LINKS = isMM()
     ? '<a class="ulink" href="https://t.me/+bXaSK8mwwvQ1NWUy" target="_blank" rel="noopener">Канал SYSTEM</a>'
+    : isP1() ? LINKS_P1
     : '<a class="ulink" href="https://t.me/+PUd_0dWs7W81OGIy" target="_blank" rel="noopener">Канал SYSTEM</a>'
       + '<a class="ulink" href="https://t.me/+68HZTx292dY5YTBi" target="_blank" rel="noopener">Чат общения SYSTEM</a>'
       + '<a class="ulink" href="https://t.me/+gjBJ8ccQohRiNzcy" target="_blank" rel="noopener">Чат дисциплины SYSTEM</a>'
